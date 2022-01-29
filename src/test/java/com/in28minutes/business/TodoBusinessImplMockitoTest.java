@@ -4,6 +4,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.mock;
@@ -65,12 +66,21 @@ public class TodoBusinessImplMockitoTest {
 		 todoBusinessImpl.deleteTodosNotRelatedToSpring("Utsav");
 		
 		//Then
-		verify(todoService).deleteTodos("Learn to Dance"); // to verify method deleteTodos has executed
-		verify(todoService, never()).deleteTodos("Learn Spring"); // to verify method deleteTodos has not executed
-		verify(todoService, atLeastOnce()).deleteTodos("Learn to Dance"); // to verify method deleteTodos has executed atleast once
-		verify(todoService, atLeast(1)).deleteTodos("Learn to Dance"); // to verify method deleteTodos has executed atleast {number of arg pass}
-		verify(todoService, times(1)).deleteTodos("Learn to Dance"); // to verify method deleteTodos has executed {number of arg pass}
-
+		 
+		//verify(todoService).deleteTodos("Learn to Dance"); // to verify method deleteTodos has executed
+		then(todoService).should().deleteTodos("Learn to Dance");
+		
+		//verify(todoService, never()).deleteTodos("Learn Spring"); // to verify method deleteTodos has not executed
+		then(todoService).should(never()).deleteTodos("Learn Spring");
+		
+		//verify(todoService, atLeastOnce()).deleteTodos("Learn to Dance"); // to verify method deleteTodos has executed atleast once
+		then(todoService).should(atLeastOnce()).deleteTodos("Learn to Dance");
+		
+		//verify(todoService, atLeast(1)).deleteTodos("Learn to Dance"); // to verify method deleteTodos has executed atleast {number of arg pass}
+		then(todoService).should(atLeast(1)).deleteTodos("Learn to Dance");
+		
+		//verify(todoService, times(1)).deleteTodos("Learn to Dance"); // to verify method deleteTodos has executed {number of arg pass}
+		then(todoService).should(times(1)).deleteTodos("Learn to Dance");
 
 	}
 }
