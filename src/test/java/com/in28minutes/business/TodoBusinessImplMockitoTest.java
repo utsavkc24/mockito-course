@@ -17,6 +17,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
 
 import com.in28minutes.data.api.TodoService;
 
@@ -81,6 +82,35 @@ public class TodoBusinessImplMockitoTest {
 		
 		//verify(todoService, times(1)).deleteTodos("Learn to Dance"); // to verify method deleteTodos has executed {number of arg pass}
 		then(todoService).should(times(1)).deleteTodos("Learn to Dance");
+
+	}
+	
+	@Test
+	public void usingMockitoToDeleteTodosNotRelatedToSpring_usingBDD_argumentCapture() {
+		//Steps to to argument capture
+		//Steps 1 -> Declare Argument captor
+		ArgumentCaptor<String> stringArgumentCaptor = ArgumentCaptor.forClass(String.class);
+		
+		
+		
+		
+		//Given
+		TodoService todoService = mock(TodoService.class);
+		List<String> allTodos = Arrays.asList("Learn Spring MVC",
+				"Learn Spring", "Learn to Dance");
+		given(todoService.retrieveTodos("Utsav")).willReturn(allTodos);
+		
+		//When
+		TodoBusinessImpl todoBusinessImpl = new TodoBusinessImpl(todoService);
+		 todoBusinessImpl.deleteTodosNotRelatedToSpring("Utsav");
+		
+		//Then
+		 
+		//Steps 2 -> Define Argument captor on specific method call
+		then(todoService).should().deleteTodos(stringArgumentCaptor.capture());
+
+		//Steps 3 -> Capture the argument
+		assertThat(stringArgumentCaptor.getValue(), is("Learn to Dance"));
 
 	}
 }
