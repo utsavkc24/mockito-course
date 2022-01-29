@@ -1,6 +1,8 @@
 package com.in28minutes.mockito;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -49,6 +51,7 @@ public class ListTest {
 		
 		assertEquals("Bruce Wayne", list.get(1));
 	}
+	//Stubbing variations with Mockito - Argument Matchers & More..
 	
 	@Test(expected = RuntimeException.class)
 	public void letMockList_throwAnException() {
@@ -56,5 +59,17 @@ public class ListTest {
 		when(list.get(anyInt())).thenThrow(new RuntimeException("Something went wrong"));
 		
 		list.get(0);
+	}
+	
+
+	@Test
+	public void letMockListGetMethodUsingBDD() {
+		//Given
+		List<String> list = mock(List.class);
+		when(list.get(0)).thenReturn("Bruce Wayne");
+		//When
+		String firstElement = list.get(0);
+		//This
+		assertThat(firstElement, is(list.get(0)));
 	}
 }
